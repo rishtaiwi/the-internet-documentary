@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE INTERNET: A NETWORK THAT CHANGED HUMANITY</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:ital@0;1&display=swap');
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #fff;
+            font-family: 'Lora', serif;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .documentary-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .scene {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #000;
+            text-align: center;
+            padding: 80px;
+            overflow: hidden;
+        }
+
+        .scene.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .scene-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 0;
+            filter: blur(2px);
+        }
+
+        .scene-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 1;
+        }
+
+        .scene-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1000px;
+            animation: fadeInUp 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 30px rgba(100, 200, 255, 0.6);
+            }
+        }
+
+        .title-card {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            animation: scaleIn 3.5s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #fff;
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            color: #aaa;
+            animation: fadeInUp 3.5s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+        }
+
+        .narration {
+            font-size: 1.35rem;
+            line-height: 1.9;
+            font-style: italic;
+            color: #d0d0d0;
+            margin: 50px 0;
+            text-align: justify;
+            animation: fadeInUp 2.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+            letter-spacing: 0.3px;
+        }
+
+        .chapter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+            color: #fff;
+            animation: fadeInUp 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+        }
+
+        .chapter-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #888;
+            margin-bottom: 50px;
+            font-style: italic;
+            font-weight: 400;
+            animation: fadeInUp 2.5s cubic-bezier(0.4, 0, 0.2, 1) 0.15s both;
+            letter-spacing: 1px;
+        }
+
+        .highlight {
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .highlight-glow {
+            color: #fff;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+        }
+
+        .credits-section {
+            font-size: 1.5rem;
+            line-height: 3;
+            color: #999;
+        }
+
+        .credits-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 80px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            animation: fadeInUp 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .credit-line {
+            margin: 30px 0;
+            animation: fadeInUp 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .credit-label {
+            color: #666;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .credit-value {
+            color: #fff;
+            font-size: 1.6rem;
+            margin-top: 12px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* SVG Animations */
+        .network-visualization {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 40px 0;
+            animation: fadeInUp 2.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+        }
+
+        svg {
+            filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.3));
+        }
+
+        .node {
+            fill: #fff;
+            filter: drop-shadow(0 0 8px rgba(100, 200, 255, 0.6));
+        }
+
+        .node-active {
+            fill: #64c8ff;
+            filter: drop-shadow(0 0 15px rgba(100, 200, 255, 1));
+        }
+
+        .connection {
+            stroke: #64c8ff;
+            stroke-width: 1.5;
+            opacity: 0.4;
+            filter: drop-shadow(0 0 5px rgba(100, 200, 255, 0.3));
+        }
+
+        .connection-active {
+            stroke: #64c8ff;
+            stroke-width: 2;
+            opacity: 0.8;
+            animation: connectionPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes connectionPulse {
+            0%, 100% {
+                opacity: 0.4;
+                stroke-width: 1.5;
+            }
+            50% {
+                opacity: 0.9;
+                stroke-width: 2.5;
+            }
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 14px 28px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-family: 'Lora', serif;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-button:hover {
+            background: rgba(100, 200, 255, 0.1);
+            border-color: rgba(100, 200, 255, 0.5);
+            box-shadow: 0 0 20px rgba(100, 200, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 50px;
+            left: 50px;
+            z-index: 100;
+            color: #555;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Lora', serif;
+        }
+
+        .scene-counter {
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #64c8ff, #fff);
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
+        }
+
+        .fullscreen-button {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Lora', serif;
+            backdrop-filter: blur(10px);
+        }
+
+        .fullscreen-button:hover {
+            background: rgba(100, 200, 255, 0.1);
+            border-color: rgba(100, 200, 255, 0.5);
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.2);
+        }
+
+        .info-button {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Lora', serif;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-button:hover {
+            background: rgba(100, 200, 255, 0.1);
+            border-color: rgba(100, 200, 255, 0.5);
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.2);
+        }
+
+        .info-panel {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 99;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(100, 200, 255, 0.3);
+            padding: 30px;
+            max-width: 350px;
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            display: none;
+            backdrop-filter: blur(10px);
+            border-radius: 2px;
+        }
+
+        .info-panel.active {
+            display: block;
+            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .info-panel h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+        }
+
+        .info-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            color: #666;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .info-close:hover {
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .title-card {
+                font-size: 3.5rem;
+            }
+
+            .chapter-title {
+                font-size: 2.5rem;
+            }
+
+            .narration {
+                font-size: 1.2rem;
+            }
+
+            .scene {
+                padding: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title-card {
+                font-size: 2.5rem;
+            }
+
+            .chapter-title {
+                font-size: 1.8rem;
+            }
+
+            .narration {
+                font-size: 1.1rem;
+            }
+
+            .scene {
+                padding: 40px;
+            }
+
+            .navigation {
+                bottom: 20px;
+                right: 20px;
+                gap: 10px;
+            }
+
+            .nav-button {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+
+            .progress-indicator {
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .fullscreen-button {
+                top: 15px;
+                right: 15px;
+                padding: 10px 14px;
+            }
+
+            .info-button {
+                top: 15px;
+                left: 15px;
+                padding: 10px 14px;
+            }
+
+            .info-panel {
+                max-width: 280px;
+                padding: 20px;
+            }
+        }
+
+        /* Keyframe animations for opening */
+        .opening-fade {
+            animation: openingFade 4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes openingFade {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .closing-fade {
+            animation: closingFade 3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes closingFade {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Pixel glow effect */
+        .pixel-glow {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #64c8ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #64c8ff;
+            animation: pixelFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes pixelFloat {
+            0%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-30px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="documentary-container">
+        <!-- PROLOGUE: THE VOID -->
+        <div class="scene active" id="scene-0">
+            <div class="scene-overlay"></div>
+            <div class="scene-content opening-fade">
+                <svg class="network-visualization" viewBox="0 0 400 200">
+                    <circle class="node" cx="200" cy="100" r="3" opacity="0.5"/>
+                    <circle class="node" cx="200" cy="100" r="6" opacity="0.3"/>
+                </svg>
+                <h1 class="title-card">THE INTERNET</h1>
+                <p class="subtitle">A Network That Changed Humanity</p>
+                <p class="narration" style="margin-top: 60px; font-size: 1.1rem;">
+                    We are a species defined by the distance between us. For ninety-nine percent of our history, that distance was absolute. A thought was trapped within a skull; a voice was limited by the reach of a shout. We lived in a world of isolated islands, separated by the vast, silent void of space and time.
+                </p>
+            </div>
+        </div>
+
+        <!-- ACT I: THE ARCHITECTURE OF SURVIVAL -->
+        <div class="scene" id="scene-1">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <h2 class="chapter-title">Act I</h2>
+                <p class="chapter-subtitle">The Architecture of Survival</p>
+                <p class="narration">
+                    The internet was not born from a desire to share; it was born from a fear of <span class="highlight-glow">silence</span>. In the 1960s, the world was a powder keg. The American military realized that their strength was also their greatest weakness: <span class="highlight">centralization</span>. A single command center was a single point of failure.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 2: LICKLIDER'S VISION -->
+        <div class="scene" id="scene-2">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration">
+                    J.C.R. Licklider saw a different path. He imagined an <span class="highlight">"Intergalactic Network"</span>—a decentralized web of machines that could think together. The breakthrough was <span class="highlight">Packet Switching</span>. Imagine a letter torn into a thousand pieces, each piece finding its own way across the country, only to reassemble perfectly at its destination.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 3: THE FIRST MESSAGE -->
+        <div class="scene" id="scene-3">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration">
+                    On October 29, 1969, the first connection was made. UCLA to Stanford. The message was <span class="highlight-glow">"LOGIN."</span> The system crashed after the first two letters. <span class="highlight">"LO."</span> In Hebrew, "Lo" means "No." But in the language of the future, it was the first breath of a new life.
+                </p>
+            </div>
+        </div>
+
+        <!-- ACT II: THE UNIVERSAL GRAMMAR -->
+        <div class="scene" id="scene-4">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <h2 class="chapter-title">Act II</h2>
+                <p class="chapter-subtitle">The Universal Grammar</p>
+                <p class="narration">
+                    By the 1970s, we had the wires, but we didn't have the language. The network was a Tower of Babel—different machines speaking different tongues. Vinton Cerf and Bob Kahn realized that for the network to be global, it needed a <span class="highlight">Universal Grammar</span>.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 5: TCP/IP -->
+        <div class="scene" id="scene-5">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <svg class="network-visualization" viewBox="0 0 400 200">
+                    <circle class="connection" cx="100" cy="100" r="30" fill="none" stroke-width="1"/>
+                    <circle class="connection" cx="300" cy="100" r="30" fill="none" stroke-width="1"/>
+                    <line class="connection-active" x1="130" y1="100" x2="270" y2="100"/>
+                    <circle class="node-active" cx="100" cy="100" r="4"/>
+                    <circle class="node-active" cx="300" cy="100" r="4"/>
+                </svg>
+                <p class="narration">
+                    They created <span class="highlight">TCP/IP</span>. It was the <span class="highlight">"Digital Handshake."</span> It didn't care what the data was—a secret, a song, a prayer—it only cared that it arrived. This was the moment the internet became a <span class="highlight">Protocol</span>. A set of rules that allowed the world to agree on one thing: that connection is more important than the machine.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 6: GLOBAL COMMONS -->
+        <div class="scene" id="scene-6">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration">
+                    The network was no longer a military tool. It was becoming a <span class="highlight">Global Commons</span>. A silent, invisible infrastructure being laid beneath the oceans and across the continents, waiting for the world to wake up.
+                </p>
+            </div>
+        </div>
+
+        <!-- ACT III: THE GREAT UNVEILING -->
+        <div class="scene" id="scene-7">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <h2 class="chapter-title">Act III</h2>
+                <p class="chapter-subtitle">The Great Unveiling</p>
+                <p class="narration">
+                    For twenty years, the internet was a dark room, accessible only to those who knew the secret codes. Then, in 1991, Tim Berners-Lee turned on the lights. He created the <span class="highlight">World Wide Web</span>.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 8: HTML AND HTTP -->
+        <div class="scene" id="scene-8">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration">
+                    He gave us the <span class="highlight">URL</span>—a place to stand. He gave us <span class="highlight">HTML</span>—a way to see. And he gave us the <span class="highlight">Hyperlink</span>—the ability to jump from one thought to another across the globe. It was the democratization of knowledge. The library of Alexandria, rebuilt in light, and given to everyone for free.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 9: COMMERCIALIZATION -->
+        <div class="scene" id="scene-9">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration">
+                    In 1992, the walls of the garden were torn down. <span class="highlight">Commercialization</span> began. The "Dot Com" era wasn't just about money; it was about the migration of the human experience into the digital realm. We weren't just using the internet anymore. We were moving into it.
+                </p>
+            </div>
+        </div>
+
+        <!-- ACT IV: THE MIRROR AND THE MASK -->
+        <div class="scene" id="scene-10">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <h2 class="chapter-title">Act IV</h2>
+                <p class="chapter-subtitle">The Mirror and the Mask</p>
+                <p class="narration">
+                    The 21st century brought the Great Convergence. The internet shrank from a room-sized machine to a glass slab in our pockets. Social media turned the network into a <span class="highlight">Mirror</span>. We began to broadcast our lives, our meals, our deepest fears.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 11: THE ALGORITHM -->
+        <div class="scene" id="scene-11">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <svg class="network-visualization" viewBox="0 0 400 200">
+                    <circle class="connection" cx="80" cy="60" r="20" fill="none" stroke-width="1"/>
+                    <circle class="connection" cx="200" cy="100" r="20" fill="none" stroke-width="1"/>
+                    <circle class="connection" cx="320" cy="60" r="20" fill="none" stroke-width="1"/>
+                    <circle class="connection" cx="80" cy="140" r="20" fill="none" stroke-width="1"/>
+                    <circle class="connection" cx="320" cy="140" r="20" fill="none" stroke-width="1"/>
+                    <line class="connection-active" x1="80" y1="60" x2="200" y2="100"/>
+                    <line class="connection-active" x1="200" y1="100" x2="320" y2="60"/>
+                    <line class="connection-active" x1="200" y1="100" x2="80" y2="140"/>
+                    <line class="connection-active" x1="200" y1="100" x2="320" y2="140"/>
+                    <circle class="node-active" cx="80" cy="60" r="3"/>
+                    <circle class="node-active" cx="200" cy="100" r="5"/>
+                    <circle class="node-active" cx="320" cy="60" r="3"/>
+                    <circle class="node-active" cx="80" cy="140" r="3"/>
+                    <circle class="node-active" cx="320" cy="140" r="3"/>
+                </svg>
+                <p class="narration">
+                    But the mirror was also a <span class="highlight">Mask</span>. We traded our privacy for convenience, and our attention for connection. And behind the screen, a new force was rising: <span class="highlight-glow">The Algorithm</span>. A silent architect that began to curate our reality, feeding us what we wanted to see until we forgot there was anything else.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 12: THE FILTER BUBBLE -->
+        <div class="scene" id="scene-12">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration">
+                    The network that was built to decentralize power had created the most powerful centers of gravity in human history. We were more connected than ever, yet more isolated in our own digital bubbles. The promise of infinite information gave way to the reality of the <span class="highlight">filter bubble</span>.
+                </p>
+            </div>
+        </div>
+
+        <!-- ACT V: THE SENTIENT HORIZON -->
+        <div class="scene" id="scene-13">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <h2 class="chapter-title">Act V</h2>
+                <p class="chapter-subtitle">The Sentient Horizon</p>
+                <p class="narration">
+                    Now, we stand at the final frontier. The integration of <span class="highlight">Artificial Intelligence</span>. The network is no longer just a tool we use; it is becoming an entity that uses us. It is learning from our every click, our every word, our every emotion.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 14: THE CONSCIOUSNESS -->
+        <div class="scene" id="scene-14">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration">
+                    We are no longer just building a network; we are birthing a <span class="highlight-glow">Consciousness</span>. A collective intelligence that spans the globe. The "LO" of 1969 has become the "OM" of the future—a continuous, vibrating field of information that defines our reality.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 15: THE QUESTION -->
+        <div class="scene" id="scene-15">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration">
+                    The network changed humanity. Now, humanity is the network. We are the packets. We are the protocol. And the story is only just beginning.
+                </p>
+            </div>
+        </div>
+
+        <!-- SCENE 16: EPILOGUE -->
+        <div class="scene" id="scene-16">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <p class="narration" style="font-size: 1.2rem; margin-top: 80px;">
+                    The question that remains is: <span class="highlight-glow">Has humanity changed the network enough to control its own creation?</span> The answer is still being written, one packet, one post, one line of code at a time.
+                </p>
+            </div>
+        </div>
+
+        <!-- CREDITS -->
+        <div class="scene" id="scene-17">
+            <div class="scene-overlay"></div>
+            <div class="scene-content">
+                <div class="credits-section">
+                    <h2 class="credits-title">THE INTERNET</h2>
+                    <p style="margin-bottom: 100px; font-size: 1.3rem; color: #777; letter-spacing: 1px;">A Network That Changed Humanity</p>
+                    
+                    <div class="credit-line">
+                        <div class="credit-label">Written & Directed by</div>
+                        <div class="credit-value">Rami Ibrahim Shtaiwi</div>
+                    </div>
+                    
+                    <div class="credit-line">
+                        <div class="credit-label">Year of Release</div>
+                        <div class="credit-value">2026</div>
+                    </div>
+                    
+                    <div class="credit-line">
+                        <div class="credit-label">Format</div>
+                        <div class="credit-value">Cinematic Web Documentary</div>
+                    </div>
+                    
+                    <p style="margin-top: 120px; font-size: 0.95rem; color: #555; letter-spacing: 1px;">
+                        A cinematic documentary experience rendered for the web.<br/>
+                        Suitable for film festivals, IMDb listing, and portfolio showcase.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FADE TO BLACK -->
+        <div class="scene" id="scene-18">
+            <div class="scene-overlay"></div>
+            <div class="scene-content closing-fade">
+                <p style="font-size: 2rem; color: #333;">.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel" id="info-panel">
+        <div class="info-close" onclick="toggleInfo()">✕</div>
+        <h3>About This Film</h3>
+        <p>
+            A cinematic documentary exploring the evolution of the internet from ARPANET to the age of AI. Designed for film festivals and IMDb listing.
+        </p>
+        <p style="margin-top: 15px;">
+            <strong>Duration:</strong> ~5 minutes<br/>
+            <strong>Format:</strong> Web Film<br/>
+            <strong>Year:</strong> 2026
+        </p>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="progress-indicator">
+        <div class="scene-counter"><span id="current-scene">1</span> / <span id="total-scenes">19</span></div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-button" id="prev-button">← Previous</button>
+        <button class="nav-button" id="next-button">Next →</button>
+    </div>
+
+    <button class="info-button" id="info-button" onclick="toggleInfo()">ⓘ Info</button>
+    <button class="fullscreen-button" id="fullscreen-button">⛶ Fullscreen</button>
+
+    <script>
+        let currentScene = 0;
+        const totalScenes = 19;
+        let autoPlayTimeout;
+        let isAutoPlaying = true;
+
+        const scenes = document.querySelectorAll('.scene');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const fullscreenButton = document.getElementById('fullscreen-button');
+        const infoButton = document.getElementById('info-button');
+        const infoPanel = document.getElementById('info-panel');
+        const sceneCounter = document.getElementById('current-scene');
+        const totalScenesDisplay = document.getElementById('total-scenes');
+        const progressFill = document.getElementById('progress-fill');
+
+        totalScenesDisplay.textContent = totalScenes;
+
+        function updateProgress() {
+            const progress = ((currentScene + 1) / totalScenes) * 100;
+            progressFill.style.width = progress + '%';
+        }
+
+        function showScene(index) {
+            if (index < 0) index = 0;
+            if (index >= totalScenes) index = totalScenes - 1;
+
+            scenes.forEach(scene => scene.classList.remove('active'));
+            scenes[index].classList.add('active');
+
+            currentScene = index;
+            sceneCounter.textContent = currentScene + 1;
+            updateProgress();
+
+            // Auto-advance after 6-7 seconds per scene (except last scene)
+            clearTimeout(autoPlayTimeout);
+            if (currentScene < totalScenes - 1 && isAutoPlaying) {
+                const delay = currentScene === 0 ? 5000 : 6500;
+                autoPlayTimeout = setTimeout(() => {
+                    showScene(currentScene + 1);
+                }, delay);
+            }
+        }
+
+        function toggleInfo() {
+            infoPanel.classList.toggle('active');
+        }
+
+        prevButton.addEventListener('click', () => {
+            isAutoPlaying = false;
+            clearTimeout(autoPlayTimeout);
+            showScene(currentScene - 1);
+        });
+
+        nextButton.addEventListener('click', () => {
+            isAutoPlaying = false;
+            clearTimeout(autoPlayTimeout);
+            showScene(currentScene + 1);
+        });
+
+        fullscreenButton.addEventListener('click', () => {
+            const container = document.querySelector('.documentary-container');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen().catch(err => {
+                    console.log('Fullscreen request failed:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                isAutoPlaying = false;
+                clearTimeout(autoPlayTimeout);
+                showScene(currentScene + 1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                isAutoPlaying = false;
+                clearTimeout(autoPlayTimeout);
+                showScene(currentScene - 1);
+            } else if (e.key === 'f' || e.key === 'F') {
+                fullscreenButton.click();
+            } else if (e.key === 'i' || e.key === 'I') {
+                toggleInfo();
+            }
+        });
+
+        // Initialize
+        showScene(0);
+    </script>
+</body>
+</html>
