@@ -13,7 +13,7 @@ This project is designed as a **Single-File Cinematic Experience**, utilizing ad
 
 ## 📽️ Experience the Film
 **[Click Here to Watch the Documentary](https://theinternetfilm.netlify.app/)**
-*(Note: Replace the link above with your actual GitHub Pages URL after activation)*
+
 
 ## 🎞️ Narrative Structure (The 5 Acts)
 - **Act I: The Architecture of Survival** – The birth of ARPANET and Packet Switching.
