@@ -12,7 +12,7 @@
 This project is designed as a **Single-File Cinematic Experience**, utilizing advanced web technologies to deliver a film-like narrative directly in the browser.
 
 ## 📽️ Experience the Film
-**[Click Here to Watch the Documentary](https://YOUR-USERNAME.github.io/the-internet-documentary/ )**
+**[Click Here to Watch the Documentary](https://theinternetfilm.netlify.app/)**
 *(Note: Replace the link above with your actual GitHub Pages URL after activation)*
 
 ## 🎞️ Narrative Structure (The 5 Acts)
